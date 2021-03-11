@@ -13,3 +13,5 @@ SUMM_HEI_2019_ADM_STR <- SUMM_HEI_2019_ADM_STR[CLEAN_HEI_2019[,
     Mean_Students = mean(Students_Total), SD_Students = sd(Students_Total)
   ),
   by= Administrative_Structure],on="Administrative_Structure"]
+
+
