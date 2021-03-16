@@ -13,4 +13,8 @@ STUDENT_COL_NAME_CLEAN <- c(
 
 CLEAN_STUDENT_2019 <- RAW_STUDENT_2019[,..STUDENT_COL_NAME_RAW]
 setnames(CLEAN_STUDENT_2019,old= STUDENT_COL_NAME_RAW,new=STUDENT_COL_NAME_CLEAN)
-  
+
+
+CLEAN_STUDENT_2019[,Course_Mode:= 
+  factor(as.factor(Course_Mode),1:2,labels = c("Classroom","Distance"))]
+

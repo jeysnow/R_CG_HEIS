@@ -7,5 +7,8 @@ memory.limit(16000)
 source("Clean_Student.R")
 source("Clean_HEI.R")
 source("Clean_Owner.R")
+source("Clean_Private.R")
 
 source("Summ_HEI.R")
+
+

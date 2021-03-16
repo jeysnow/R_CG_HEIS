@@ -13,10 +13,15 @@ HEI_COL_NAME_CLEAN <- c(
   "Cost_Expenses","Investment_Expenses","research_Expenses","Other_Expenses"  
 )
 
+Check_HEI_Code <- function(x){RAW_HEI_2019[CO_IES==x,NO_IES]}
+
+
 
 
 CLEAN_HEI_2019 <- RAW_HEI_2019[,..HEI_COL_NAME_RAW]
 setnames(CLEAN_HEI_2019,old= HEI_COL_NAME_RAW,new=HEI_COL_NAME_CLEAN)
+
+setkey(CLEAN_HEI_2019,"HEI_Code")
 
 CLEAN_HEI_2019[,Administrative_Structure:=factor(
   as.factor(Administrative_Structure),levels = 1:9,
@@ -38,5 +43,15 @@ CLEAN_HEI_2019[,Total_Expense:=Faculty_Expenses+Staff_Expenses+research_Expenses
 CLEAN_HEI_2019[,Profit:=Total_Revenue - Total_Expense]
 
 
-CLEAN_HEI_2019<-CLEAN_HEI_2019[CLEAN_STUDENT_2019[, .N,HEI_Code],on="HEI_Code"]
+
+CLEAN_HEI_2019<- CLEAN_STUDENT_2019[, .N,HEI_Code][CLEAN_HEI_2019,on="HEI_Code"]
 setnames(CLEAN_HEI_2019,"N","Students_Total")
+
+
+CLEAN_HEI_2019<- CLEAN_STUDENT_2019[Course_Mode=="Distance",.N,HEI_Code][CLEAN_HEI_2019,on="HEI_Code"]
+setnames(CLEAN_HEI_2019,"N","Students_Dist")
+CLEAN_HEI_2019[,Students_Dist:=nafill(Students_Dist,fill = 0)]
+
+CLEAN_HEI_2019<- CLEAN_STUDENT_2019[Course_Mode=="Classroom",.N,HEI_Code][CLEAN_HEI_2019,on="HEI_Code"]
+setnames(CLEAN_HEI_2019,"N","Students_Class")
+CLEAN_HEI_2019[,Students_Class:=nafill(Students_Class,fill = 0)]
