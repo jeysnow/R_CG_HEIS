@@ -57,16 +57,16 @@ Clean_HEI <- function(RAW_HEI,CLEAN_STUDENT){
   
 }
 
-Clean_HEI_List <- function(RAW_HEI_VECTOR, CLEAN_STUDENT_VECTOR) {
-  if(length(RAW_HEI_VECTOR)!=length(CLEAN_STUDENT_VECTOR)){
+Clean_HEI_List <- function(RAW_HEI_LIST, CLEAN_STUDENT_LIST) {
+  if(length(RAW_HEI_LIST)!=length(CLEAN_STUDENT_LIST)){
     warning("Clean HEI List received lists of differing lenghts")
     stop()
   }
   
   output<- list()
-  for (i in 1:length(RAW_HEI_VECTOR)) {
-    output[[names(RAW_HEI_VECTOR[i])]]<- 
-      Clean_HEI(RAW_HEI_VECTOR[[i]],CLEAN_STUDENT_VECTOR[[i]])
+  for (i in 1:length(RAW_HEI_LIST)) {
+    output[[names(RAW_HEI_LIST[i])]]<- 
+      Clean_HEI(RAW_HEI_LIST[[i]],CLEAN_STUDENT_LIST[[i]])
     
   }
   return(output)

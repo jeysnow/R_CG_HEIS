@@ -19,6 +19,12 @@ Clean_Sudent <- function(RAW_STUDENT){
   setnames(CLEAN_STUDENT,old= STUDENT_COL_NAME_RAW,new=STUDENT_COL_NAME_CLEAN)
   
   
+  CLEAN_STUDENT[,Administrative_Structure:=factor(
+    as.factor(Administrative_Structure),levels = 1:9,
+    labels =  c("Federally_Owned","State_Owned","Municipally_Owned","Private_for_profit",
+                "Private_nonprofit","Private_strictly","Special","Comunity_Owned","Confessional")
+  )]
+  
   CLEAN_STUDENT[,Course_Mode:= 
     factor(as.factor(Course_Mode),1:2,labels = c("Classroom","Distance"))]
   

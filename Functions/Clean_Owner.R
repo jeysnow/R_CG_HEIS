@@ -92,3 +92,13 @@ Clean_Maintainer <- function(CLEAN_HEI){
   
   return(CLEAN_MAINT)
 }
+
+Clean_Maint_List <- function(CLEAN_HEI_LIST) {
+  output<- list()
+  for (i in 1:length(CLEAN_HEI_LIST)) {
+    output[[names(CLEAN_HEI_LIST[i])]]<- 
+      Clean_Maintainer(CLEAN_HEI_LIST[[i]])
+    
+  }
+  return(output)
+}
