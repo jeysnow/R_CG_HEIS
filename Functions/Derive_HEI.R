@@ -26,6 +26,16 @@ Derive_HEI <-function(CLEAN_HEI,CLEAN_STUDENT){
   CLEAN_HEI<- CLEAN_STUDENT[, .N,HEI_Code][CLEAN_HEI,on="HEI_Code"]
   setnames(CLEAN_HEI,"N","Students_Total")
   
+  CLEAN_HEI<- CLEAN_STUDENT[,sum(Student_New),HEI_Code][CLEAN_HEI,on="HEI_Code"]
+  setnames(CLEAN_HEI,"V1","Students_New")
+  
+  CLEAN_HEI[,Rate_Attraction:=Students_New/Students_Total]
+  
+  CLEAN_HEI<-CLEAN_STUDENT[Student_Enrollment_Situation=="Cancelled",
+                           .N,HEI_Code][CLEAN_HEI,on="HEI_Code"]
+  setnames(CLEAN_HEI,"N","Students_Cancelled")
+  
+  CLEAN_HEI[,Rate_Retention:=Students_Cancelled/Students_Total]
   
   CLEAN_HEI<- CLEAN_STUDENT[Course_Mode=="Distance",.N,HEI_Code][CLEAN_HEI,on="HEI_Code"]
   setnames(CLEAN_HEI,"N","Students_Dist")
@@ -34,5 +44,8 @@ Derive_HEI <-function(CLEAN_HEI,CLEAN_STUDENT){
   CLEAN_HEI<- CLEAN_STUDENT[Course_Mode=="Classroom",.N,HEI_Code][CLEAN_HEI,on="HEI_Code"]
   setnames(CLEAN_HEI,"N","Students_Class")
   CLEAN_HEI[,Students_Class:=nafill(Students_Class,fill = 0)]
+  
+  
+  
   return(CLEAN_HEI)
 }

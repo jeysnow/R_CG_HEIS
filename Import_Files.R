@@ -1,6 +1,10 @@
-RAW_HEIS<- Import_Data(c(
-  "../Data/SUP_IES_2019.CSV"))
+GENERAL_STUDENTS<- Import_Directory("../Data/General/Students/")
+GENERAL_HEIS<- Import_Directory("../Data/General/HEIs/")
+GENERAL_MAINTAINERS<- Import_Directory("../Data/General/Maintainers/")
 
-RAW_STUDENT <- Import_Data(c(
-  "../Data/SUP_ALUNO_2019.CSV"
-))
+
+PRIVATE_STUDENTS<- Import_Directory("../Data/Private/Students/")
+PRIVATE_HEIS<-Import_Directory("../Data/Private/HEIs/")
+PRIVATE_MAINTAINERS<-Import_Directory("../Data/Private/Maintainers/")
+
+print("Imported general and private directories")

@@ -66,11 +66,17 @@ Clean_Maintainer <- function(CLEAN_HEI){
     HEI_Code= OWNER_CHAR_CONCAT(HEI_Code),
     
     Students_Total = OWNER_FIN_SUMM(Students_Total), Students_Dist = OWNER_FIN_SUMM(Students_Dist),
-    Students_Class = OWNER_FIN_SUMM(Students_Class)
+    Students_Class = OWNER_FIN_SUMM(Students_Class), Students_New = OWNER_FIN_SUMM(Students_New),
+    Students_Cancelled = OWNER_FIN_SUMM(Students_Cancelled)
     
     
     
   ),by=Maintainer_Code ]
+  
+  
+  CLEAN_MAINT[,Rate_Attraction:=Students_New/Students_Total]
+  CLEAN_MAINT[,Rate_Retention:=Students_Cancelled/Students_Total]
+  
   
   CLEAN_MAINT[,Revenue_Category := 
      factor( sapply(Total_Revenue, function(x){
