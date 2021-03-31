@@ -1,5 +1,5 @@
-GENERAL_STUDENTS<- Import_Directory("../Data/General/Students/")
-GENERAL_HEIS<- Import_Directory("../Data/General/HEIs/")
+GENERAL_STUDENTS<- Import_Directory("../Data/General/Students/",FACTOR_STUDENT = TRUE)
+GENERAL_HEIS<- Import_Directory("../Data/General/HEIs/",FACTOR_HEI = TRUE)
 GENERAL_MAINTAINERS<- Import_Directory("../Data/General/Maintainers/")
 
 

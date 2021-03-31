@@ -1,6 +1,7 @@
+IGC_16_18<- fread("../Data/IGC_16_18.csv")
 
+teste<-Clean_HEI(RAW_HEIS$`2018`,GENERAL_STUDENTS$`2018`)
 
-PRIVATE_STUDENTS<- Clean_private_List(GENERAL_STUDENTS)
-PRIVATE_HEIS<- Clean_private_List(GENERAL_HEIS)
-PRIVATE_MAINTAINERS<- Clean_private_List(GENERAL_MAINTAINERS)
+is.factor(teste$Administrative_Structure)
 
+is.factor(GENERAL_STUDENTS$`2019`$Administrative_Structure)

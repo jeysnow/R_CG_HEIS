@@ -1,6 +1,7 @@
 #import functions
 
-Import_Data <- function(PATHS_VECTOR) {
+Import_Data <- function(PATHS_VECTOR,FACTOR_HEI=FALSE,FACTOR_MAINT=FALSE,FACTOR_STUDENT=FALSE) {
+  #Checking paths
   for (PATH in PATHS_VECTOR) {
     if(!is.character(PATH)){
       print("PATH given to Import_Data is not a character")
@@ -11,6 +12,11 @@ Import_Data <- function(PATHS_VECTOR) {
       stop()
     }
   }
+  #Checking excessive factoration
+  if ((FACTOR_HEI&FACTOR_MAINT)|FACTOR_HEI&FACTOR_STUDENT|FACTOR_MAINT&FACTOR_STUDENT) {
+    print("More than one type of factoration chosen for import data")
+    stop()
+  }
   
   DT_List <- list()
   
@@ -19,20 +25,33 @@ Import_Data <- function(PATHS_VECTOR) {
     n<- nchar(PATH)
     name<- substr(PATH,n-7,n-4)
     DT<-fread(PATH,header = TRUE)
+    
+    if (FACTOR_HEI) {
+      DT<-Factor_HEI(DT)
+    }
+    
+    if (FACTOR_STUDENT) {
+      DT<-Factor_Student(DT)
+    }
+    
+    
+    
     DT_List[[name]]<- DT
     
   }
+  
+  
   return(DT_List)
 }
 
-Import_Directory<-function(DIR_PATH){
+Import_Directory<-function(DIR_PATH,FACTOR_HEI=FALSE,FACTOR_MAINT=FALSE,FACTOR_STUDENT=FALSE){
   if (!dir.exists(DIR_PATH)) {
     print("Directory Path given to Import Directory doesn't exist")
     stop()
   }
   
   output<- list.files(DIR_PATH,full.names = TRUE)
-  output<- Import_Data(output)
+  output<- Import_Data(output,FACTOR_HEI,FACTOR_MAINT,FACTOR_STUDENT)
   return(output)
   
 }

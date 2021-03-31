@@ -1,6 +1,6 @@
 OWNER_FACTOR_PRESENCE<-function(x){
   if(!is.factor(x)){
-    warning("input for OWNER_FACTOR_PRESENCE is not a factor")
+    print("input for OWNER_FACTOR_PRESENCE is not a factor")
     stop()
   }
   missing_factors <- setdiff(levels(x), x)
@@ -11,11 +11,11 @@ OWNER_FACTOR_PRESENCE<-function(x){
 
 OWNER_FIN_SUMM<- function(x){
   if(!is.vector(x)){
-    warning("input for OWNER_FIN_SUMM is not a vector")
+    print("input for OWNER_FIN_SUMM is not a vector")
     stop()
   }
   if(anyNA(x)){
-    warning(c(names(x)," has at least one NA"))
+    print(c(names(x)," has at least one NA"))
     stop()
   }
   
@@ -78,23 +78,7 @@ Clean_Maintainer <- function(CLEAN_HEI){
   CLEAN_MAINT[,Rate_Retention:=Students_Cancelled/Students_Total]
   
   
-  CLEAN_MAINT[,Revenue_Category := 
-     factor( sapply(Total_Revenue, function(x){
-       if(x<360000){
-         return("Micro")
-         
-       }
-       if(x<4800000){
-         return("Small")
-       }
-       if(x<300000000){
-         return("Medium")
-       }
-       else return("Large")
-     }
-     )
-     )
-  ]
+  CLEAN_MAINT<- Factor_Maint(CLEAN_MAINT)
   
   return(CLEAN_MAINT)
 }

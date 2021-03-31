@@ -34,6 +34,7 @@ Derive_HEI <-function(CLEAN_HEI,CLEAN_STUDENT){
   CLEAN_HEI<-CLEAN_STUDENT[Student_Enrollment_Situation=="Cancelled",
                            .N,HEI_Code][CLEAN_HEI,on="HEI_Code"]
   setnames(CLEAN_HEI,"N","Students_Cancelled")
+  CLEAN_HEI[,Students_Cancelled:=nafill(Students_Cancelled,fill = 0)]
   
   CLEAN_HEI[,Rate_Retention:=Students_Cancelled/Students_Total]
   
