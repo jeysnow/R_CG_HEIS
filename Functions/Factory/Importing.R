@@ -1,4 +1,16 @@
 #import functions
+Extract_Path_Year <- function(PATH,NUMERIC=FALSE) {
+  n<- nchar(PATH)
+  name<- substr(PATH,n-7,n-4)
+  year<- as.numeric(name)
+  if (year<1000) {
+    print(paste("Yar extracted was less than 1000 for path",PATH))
+    stop()
+  }
+  if (NUMERIC) return(year)
+  else return(name)
+}
+
 
 Import_Data <- function(PATHS_VECTOR,FACTOR_HEI=FALSE,FACTOR_MAINT=FALSE,FACTOR_STUDENT=FALSE) {
   #Checking paths
@@ -22,8 +34,9 @@ Import_Data <- function(PATHS_VECTOR,FACTOR_HEI=FALSE,FACTOR_MAINT=FALSE,FACTOR_
   
   for (PATH in PATHS_VECTOR) {
     #this code takes the 4 last characters of file path, except file extension
-    n<- nchar(PATH)
-    name<- substr(PATH,n-7,n-4)
+    
+    name<-Extract_Path_Year(PATH)
+    
     DT<-fread(PATH,header = TRUE)
     
     if (FACTOR_HEI) {

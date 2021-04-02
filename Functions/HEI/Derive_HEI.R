@@ -1,11 +1,11 @@
 Derive_HEI <-function(CLEAN_HEI,CLEAN_STUDENT){
   
-  if(names(CLEAN_HEI)[2]!="HEI_Code"){
+  if(!"HEI_Code"%in%names(CLEAN_HEI)){
     warning("Derive_HEI received Clean HEI data with wrong  headers. Was it cleaned?")
     stop()
   }
-  if(names(CLEAN_STUDENT)[9]!="Student_Code"){
-    warning("Derive_HEI received student data with wrong  headers. Was it cleaned?")
+  if(!"Student_Code"%in%names(CLEAN_STUDENT)){
+    print("Clean_HEI received student data with wrong  headers. Was it cleaned?")
     stop()
   }
   if(CLEAN_HEI[1,Census_Year]!=CLEAN_STUDENT[1,Census_Year]){

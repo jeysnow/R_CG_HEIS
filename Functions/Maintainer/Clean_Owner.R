@@ -1,39 +1,35 @@
-OWNER_FACTOR_PRESENCE<-function(x){
-  if(!is.factor(x)){
-    print("input for OWNER_FACTOR_PRESENCE is not a factor")
-    stop()
-  }
+source("Functions/Maintainer/Derive_Maint.R")
+source("Functions/Maintainer/Factor_Maint.R")
+
+
+
+Maintainer_Factor_Presence<-function(x){
+  Check.Factor(x,"Maintainer_Factor_Presence")
+  
   missing_factors <- setdiff(levels(x), x)
   present_factor <- setdiff(levels(x),missing_factors)
   return(toString(paste(present_factor,sep = ",")))
   
 }
 
-OWNER_FIN_SUMM<- function(x){
-  if(!is.vector(x)){
-    print("input for OWNER_FIN_SUMM is not a vector")
-    stop()
-  }
-  if(anyNA(x)){
-    print(c(names(x)," has at least one NA"))
-    stop()
-  }
+Maintainer_Sum<- function(x, IGNORE_REPEATED=TRUE){
+  Check.Vector(x,"Maintainer_Sum")
   
-  
-  if(mean(x)==x[1] ){
-    
-    return(x[1])
+  uniq<- unique(x)
+  if(anyNA(uniq)&length(uniq)==1){
+    return(uniq[1])
   }
   else{
-    return(sum(x))
+    if(IGNORE_REPEATED) x<- uniq
+    
+    return(sum(x,TRUE))
   }
+  
 }
 
-OWNER_CHAR_CONCAT<- function(x){
-  if(!is.vector(x)){
-    warning("input for OWNER_CHAR_CONCAT is not a vector")
-    stop()
-  }
+Maintainer_Concat<- function(x){
+  Check.Vector(x,"Maintainer_Concat")
+  
   output<- c()
   for (i in x) {
     output<- paste(c(output,as.character( i)),sep = ",")
@@ -42,40 +38,38 @@ OWNER_CHAR_CONCAT<- function(x){
   return(toString( output))
 }
 
-Check_Owner_Code <- function(x){RAW_HEI_2019[CO_MANTENEDORA==x,NO_MANTENEDORA]}
-
 Clean_Maintainer <- function(CLEAN_HEI){
-  if(names(CLEAN_HEI)[1]!="HEI_Code"){
-    warning("Clean_Maintainer received Clean HEI data with wrong headers. Was it cleaned?")
-    stop()
-  }
+  Check.Clean_HEI(CLEAN_HEI,"Clean_Maintainer")
   
   CLEAN_MAINT <- CLEAN_HEI[,.(
     Census_Year = Census_Year[1], 
     
-    Own_Revenue = OWNER_FIN_SUMM(Own_Revenue), Transferred_Revenue=OWNER_FIN_SUMM(Transferred_Revenue),
-    Other_Revenue= OWNER_FIN_SUMM(Other_Revenue),Total_Revenue = OWNER_FIN_SUMM(Total_Revenue),
+    Own_Revenue = Maintainer_Sum(Own_Revenue), Transferred_Revenue=Maintainer_Sum(Transferred_Revenue),
+    Other_Revenue= Maintainer_Sum(Other_Revenue),Total_Revenue = Maintainer_Sum(Total_Revenue),
     
-    Faculty_Expenses=OWNER_FIN_SUMM(Faculty_Expenses),
-    Staff_Expenses=OWNER_FIN_SUMM(Staff_Expenses),Social_Contribution_Expenses=OWNER_FIN_SUMM(Social_Contribution_Expenses),
-    Cost_Expenses=OWNER_FIN_SUMM(Cost_Expenses), Investment_Expenses = OWNER_FIN_SUMM(Investment_Expenses),
-    research_Expenses = OWNER_FIN_SUMM(research_Expenses), Other_Expenses = OWNER_FIN_SUMM(Other_Expenses),
-    Total_Expense = OWNER_FIN_SUMM(Total_Expense),
+    Faculty_Expenses=Maintainer_Sum(Faculty_Expenses),
+    Staff_Expenses=Maintainer_Sum(Staff_Expenses),Social_Contribution_Expenses=Maintainer_Sum(Social_Contribution_Expenses),
+    Cost_Expenses=Maintainer_Sum(Cost_Expenses), Investment_Expenses = Maintainer_Sum(Investment_Expenses),
+    research_Expenses = Maintainer_Sum(research_Expenses), Other_Expenses = Maintainer_Sum(Other_Expenses),
+    Total_Expense = Maintainer_Sum(Total_Expense),
     
-    N_HEIs = .N, HEI_Types = OWNER_FACTOR_PRESENCE(Administrative_Structure), 
-    HEI_Code= OWNER_CHAR_CONCAT(HEI_Code),
+    N_HEIs = .N, HEI_Types = Maintainer_Factor_Presence(Administrative_Structure), 
+    HEI_Code= Maintainer_Concat(HEI_Code),
     
-    Students_Total = OWNER_FIN_SUMM(Students_Total), Students_Dist = OWNER_FIN_SUMM(Students_Dist),
-    Students_Class = OWNER_FIN_SUMM(Students_Class), Students_New = OWNER_FIN_SUMM(Students_New),
-    Students_Cancelled = OWNER_FIN_SUMM(Students_Cancelled)
+    Students_Total = Maintainer_Sum(Students_Total,FALSE), Students_Dist = Maintainer_Sum(Students_Dist,FALSE),
+    Students_Class = Maintainer_Sum(Students_Class,FALSE), Students_New = Maintainer_Sum(Students_New,FALSE),
+    Students_Cancelled = Maintainer_Sum(Students_Cancelled,FALSE),
     
+    Cont_IGC_Mean = mean(IGC_Continuous),Cont_IGC_SD = sd(IGC_Continuous),
+    Level_IGC_Mean =mean(IGC_Level),Level_IGC_SD =sd(IGC_Level),
+    Grad_Average_Mean= mean(Grad_Mean),Grad_Average_SD= sd(Grad_Mean),
+    Grad_Alpha_Mean=mean(Grad_Alfa), Grad_Alpha_SD=sd(Grad_Alfa)
     
     
   ),by=Maintainer_Code ]
   
   
-  CLEAN_MAINT[,Rate_Attraction:=Students_New/Students_Total]
-  CLEAN_MAINT[,Rate_Retention:=Students_Cancelled/Students_Total]
+  Derive_Maint(CLEAN_MAINT)
   
   
   CLEAN_MAINT<- Factor_Maint(CLEAN_MAINT)
