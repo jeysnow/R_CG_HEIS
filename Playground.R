@@ -1,3 +1,5 @@
+#lalalala
+
 #old stuf------------
 
 IGC_16_18<- fread("../Data/Raw_Data/IGC/IGC_2017.csv",header = TRUE,dec = ",")
@@ -88,6 +90,7 @@ temp_students[1,Courses_CINE]
 
 
 temp_HEIs <- Import_Data("D:/Data/CENSUP/Raw_Data/HEI/SUP_IES_2019.CSV")
+
 
 
 
