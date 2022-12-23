@@ -1,5 +1,3 @@
-#lalalala
-
 #old stuf------------
 
 IGC_16_18<- fread("../Data/Raw_Data/IGC/IGC_2017.csv",header = TRUE,dec = ",")
