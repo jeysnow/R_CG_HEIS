@@ -77,7 +77,8 @@ GENERAL_CODES <- list(MAINTS = lala,
                PROGRAM = GENERAL_CODES$PROG_cODE
                )
 
-#importing programs
+#importing programs------
+
 temp_students <- Import_Data("D:/Data/CENSUP/Raw_Data/Student/SUP_ALUNO_2019.CSV")
 temp_students <- Clean_Student(temp_students[[1]])
 
@@ -103,4 +104,21 @@ GENERAL_CODES$PROG_cODE[codigo %in% test]
 
 #Current fun -----------
 
+GENERAL_HEIS$Y2019[1,Courses_CINE_Classroom] %>% 
+  #str_split(", ") %>% 
+  str_detect("0413A01")
 
+
+GENERAL_HEIS$Y2019[,ADM := str_detect(Courses_CINE_Classroom,"0413A01")]
+GENERAL_HEIS$Y2019[1:20,.(HEI_Name,ADM)]
+GENERAL_HEIS$Y2019[,.N,ADM]
+GENERAL_HEIS$Y2019[Headquarters_City=="4205407",.(HEI_Name,HEI_Code, ADM)]
+GENERAL_HEIS$Y2019[HEI_Code=="3162",.(HEI_Name, Courses_CINE_Classroom, ADM)]
+
+
+GENERAL_HEIS$Y2019[1,Courses_CINE_Classroom]==GENERAL_HEIS$Y2019[1,Courses_CINE_Classroom]
+
+
+
+#GENERAL_HEIS$Y2019$
+?str_detect
