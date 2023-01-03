@@ -64,14 +64,15 @@ Derive_HEI <-function(CLEAN_HEI,CLEAN_STUDENT){
   
   #listing all the course codes
   
-  CLEAN_HEI<- CLEAN_STUDENT[Course_Mode=="Classroom",Derive_HEI.concat(levels(Course_CINE_Code)),+
+  CLEAN_HEI<- CLEAN_STUDENT[Course_Mode=="Classroom", Derive_HEI.concat(unique(as.vector(Course_CINE_Code))), + 
                               HEI_Code][CLEAN_HEI,on="HEI_Code"]
   setnames(CLEAN_HEI,"V1","Courses_CINE_Classroom")
   
-  CLEAN_HEI<- CLEAN_STUDENT[Course_Mode=="Distance",Derive_HEI.concat(levels(Course_CINE_Code)),+
+  CLEAN_HEI<- CLEAN_STUDENT[Course_Mode=="Distance",Derive_HEI.concat(unique(as.vector(Course_CINE_Code))), + 
                               HEI_Code][CLEAN_HEI,on="HEI_Code"]
   setnames(CLEAN_HEI,"V1","Courses_CINE_Distance")
   
+  CLEAN_HEI<- clean_HEI[,ADM := str_detect(Courses_CINE_Classroom,"0413A01")]
   
   return(CLEAN_HEI)
 }

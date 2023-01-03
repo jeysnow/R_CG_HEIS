@@ -72,6 +72,7 @@ Check.Vector<- function(X,ORIGIN=""){
     print(paste(ORIGIN,": Data received was not a vector"))
     stop()
   }
+  return(TRUE)
 }
 Check.NA<- function(X,ORIGIN=""){
   if(!anyNA(X)){

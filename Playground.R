@@ -119,6 +119,13 @@ GENERAL_HEIS$Y2019[HEI_Code=="3162",.(HEI_Name, Courses_CINE_Classroom, ADM)]
 GENERAL_HEIS$Y2019[1,Courses_CINE_Classroom]==GENERAL_HEIS$Y2019[1,Courses_CINE_Classroom]
 
 
+clean_HEI[,.N, by=str_detect(Courses_CINE_Classroom,"0413A01")]
+clean_HEI[Headquarters_State==42,.(HEI_Name,HEI_Code,str_detect(Courses_CINE_Classroom,"0413A01"))]
+clean_HEI[,.N,Headquarters_State]
+
+clean_HEI[,ADM := str_detect(Courses_CINE_Classroom,"0413A01")]
+clean_HEI[1:3,]
+
 
 #GENERAL_HEIS$Y2019$
 ?str_detect
